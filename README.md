@@ -1,36 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Travel Booking Platform
+
+A comprehensive travel booking platform built with Next.js 14, TypeScript, and Tailwind CSS. This application provides a complete flight booking experience from search to passenger information collection.
+
+## Features
+
+### 🏠 Home Page
+- Hero section with search functionality
+- Popular travel packages showcase
+- Value proposition section
+- Travel recommendations with ratings and pricing
+- Newsletter subscription
+- Responsive design
+
+### 🔍 Search & Results
+- Advanced flight search with filters
+- Real-time flight results display
+- Filter by stops, airlines, price range, and duration
+- Sorting options (Recommended, Fastest, Cheapest)
+- Responsive flight cards with detailed information
+
+### 👤 Authentication
+- Simple login system (Firebase integration ready)
+- Protected booking routes
+- User session management
+
+### 📝 Booking Flow
+- Multi-step booking process (Details → Review → Payment)
+- Dynamic passenger forms based on search criteria
+- Adult and children form variations
+- Comprehensive passenger information collection
+- Booking summary with price breakdown
+- Terms and conditions acceptance
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **State Management**: React Context API
+- **Date Handling**: date-fns
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-```bash
+### Installation
+
+1. Clone the repository:
+\`\`\`bash
+git clone <repository-url>
+cd travel-booking-platform
+\`\`\`
+
+2. Install dependencies:
+\`\`\`bash
+npm install
+# or
+yarn install
+\`\`\`
+
+3. Run the development server:
+\`\`\`bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+\`\`\`
+├── app/                    # Next.js App Router pages
+│   ├── booking/           # Booking page with dynamic routes
+│   ├── login/             # Authentication page
+│   ├── search/            # Search results page
+│   └── page.tsx           # Home page
+├── components/            # Reusable UI components
+│   ├── ui/               # shadcn/ui components
+│   ├── Header.tsx        # Navigation header
+│   ├── HeroSection.tsx   # Home page hero
+│   ├── SearchForm.tsx    # Flight search form
+│   ├── FlightResults.tsx # Search results display
+│   └── ...               # Other components
+├── contexts/             # React Context providers
+│   ├── AuthContext.tsx   # Authentication state
+│   └── SearchContext.tsx # Search state management
+└── public/               # Static assets
+\`\`\`
 
-## Learn More
+## API Integration
 
-To learn more about Next.js, take a look at the following resources:
+### Flight Search API
+- **Endpoint**: `https://api.tbp.travel/flights`
+- **Method**: POST
+- **Payload**:
+\`\`\`json
+{
+  "origin": "DAC",
+  "destination": "DXB", 
+  "departureDate": "12 Oct 2025",
+  "returnDate": "20 Aug 2025",
+  "passenger": {
+    "adult": 2,
+    "children": 0,
+    "infant": 0
+  }
+}
+\`\`\`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Authentication
+- Firebase integration ready
+- Mock authentication implemented for demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Key Features Implementation
 
-## Deploy on Vercel
+### 🔄 Dynamic Passenger Forms
+- Forms automatically adjust based on passenger count
+- Separate validation for adults and children
+- Real-time form state management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🎯 Smart Routing
+- Protected routes for booking
+- Automatic login redirect for unauthenticated users
+- Seamless navigation between search and booking
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📱 Responsive Design
+- Mobile-first approach
+- Optimized for all screen sizes
+- Touch-friendly interface
+
+### 🎨 Modern UI/UX
+- Clean, professional design
+- Consistent color scheme and typography
+- Intuitive user flow
+
+## Customization
+
+### Styling
+- Modify `tailwind.config.ts` for theme customization
+- Update `app/globals.css` for global styles
+- Component-level styling with Tailwind classes
+
+### API Integration
+- Replace mock data in `app/search/page.tsx`
+- Implement real Firebase authentication in `contexts/AuthContext.tsx`
+- Add error handling and loading states
+
+### Features Extension
+- Add hotel booking functionality
+- Implement payment processing
+- Add user profile management
+- Include booking history
+
+## Deployment
+
+### Vercel (Recommended)
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Deploy automatically
+
+### Other Platforms
+- Build: `npm run build`
+- Start: `npm start`
+- Ensure environment variables are configured
+
+## Environment Variables
+
+Create a `.env.local` file:
+\`\`\`env
+NEXT_PUBLIC_API_URL=https://api.tbp.travel
+FIREBASE_API_KEY=your_firebase_key
+FIREBASE_AUTH_DOMAIN=your_domain
+# Add other Firebase config
+\`\`\`
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For questions or support, please contact the development team or create an issue in the repository.
