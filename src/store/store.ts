@@ -1,10 +1,10 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "@/store/features/counter/counterSlice";
+import searchReducer from "@/store/features/searchSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    search: searchReducer,
   },
 });
 

@@ -1,19 +1,23 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
-import { decrement, increment } from "@/store/features/counter/counterSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { PageTransition } from "@/components/animations/page-transition";
+import Footer from "@/components/common/footer";
+import Navbar from "@/components/common/navbar";
+import SearchForm from "@/components/common/search-form";
+import HeroSection from "@/components/home-page/hero-section";
+import PopularPackage from "@/components/home-page/popular-package";
+import TopValueSection from "@/components/home-page/top-value-section";
+import VideoSection from "@/components/home-page/video-section";
 
 export default function Home() {
-  const dispatch = useAppDispatch();
-  const { value } = useAppSelector((state) => state.counter);
   return (
-    <div className="flex flex-col gap-y-2 h-screen justify-center items-center">
-      <p>{value}</p>
-      <div className="flex gap-2 items-center">
-        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
-        <Button onClick={() => dispatch(increment())}>Increment</Button>
-      </div>
-    </div>
+    <PageTransition className="min-h-screen bg-white">
+      <Navbar />
+      <HeroSection />
+      <SearchForm />
+      <PopularPackage />
+      <TopValueSection />
+      <VideoSection />
+      <Footer />
+    </PageTransition>
   );
 }
