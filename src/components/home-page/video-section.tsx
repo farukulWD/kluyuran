@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function VideoSection() {
   return (
-    <section className="py-16">
+    <section className="pt-16">
       <div className="container mx-auto px-4">
         <motion.div
           className="relative h-96 rounded-2xl overflow-hidden"

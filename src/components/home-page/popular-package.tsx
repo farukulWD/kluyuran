@@ -80,9 +80,15 @@ export default function PopularPackage() {
           ))}
         </StaggerContainer>
         <FadeIn delay={0.6} className="text-center mt-8">
-          <Button className="bg-red-500 hover:bg-red-600 text-white px-8">
-            Explore more
-          </Button>
+          <motion.div
+            className="max-w-fit mx-auto"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button className="bg-red-500 hover:bg-red-600 text-white px-8">
+              Explore more
+            </Button>
+          </motion.div>
         </FadeIn>
       </div>
     </section>
