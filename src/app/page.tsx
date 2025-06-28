@@ -5,8 +5,8 @@ import Navbar from "@/components/common/navbar";
 import SearchForm from "@/components/common/search-form";
 import HeroSection from "@/components/home-page/hero-section";
 import PopularPackage from "@/components/home-page/popular-package";
+import RecommendationsSections from "@/components/home-page/recommendations-sections";
 import TopValueSection from "@/components/home-page/top-value-section";
-import VideoSection from "@/components/home-page/video-section";
 
 export default function Home() {
   return (
@@ -16,7 +16,8 @@ export default function Home() {
       <SearchForm />
       <PopularPackage />
       <TopValueSection />
-      <VideoSection />
+      <RecommendationsSections />
+
       <Footer />
     </PageTransition>
   );

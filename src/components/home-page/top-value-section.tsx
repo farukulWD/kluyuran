@@ -5,6 +5,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "../animations/page-transition";
+import VideoSection from "./video-section";
 
 const valueItems = [
   {
@@ -58,6 +59,7 @@ export default function TopValueSection() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+        <VideoSection />
       </div>
     </section>
   );
