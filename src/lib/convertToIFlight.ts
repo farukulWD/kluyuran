@@ -5,6 +5,7 @@ export interface Flight {
   id: string;
   airline_name: string;
   salecurrencycode: string;
+  equipmenttext: string;
   airline_logo: string;
   refundable: boolean;
   baggage_details: string;
@@ -45,6 +46,7 @@ export function convertToIFlight(data: IFlight[]): Flight[] {
       baggage_details: flight.baggage_details,
       pax_baggage: flight.pax_baggage.adult,
       airline_name: flight.airline_name,
+      equipmenttext: flight.equipmenttext,
       salecurrencycode: item.salecurrencycode,
       airline_logo: flight.air_logo,
       refundable: true,

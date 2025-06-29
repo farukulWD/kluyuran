@@ -16,6 +16,7 @@ interface DatePickerProps {
   onChange: (date: Date | undefined) => void;
   placeholder?: string;
   className?: string;
+  isPreDisable?: boolean;
 }
 
 export default function CustomDatePicker({
@@ -23,6 +24,7 @@ export default function CustomDatePicker({
   onChange,
   placeholder,
   className,
+  isPreDisable = true,
 }: DatePickerProps) {
   return (
     <Popover>
@@ -46,7 +48,11 @@ export default function CustomDatePicker({
           selected={date}
           onSelect={onChange}
           captionLayout="dropdown"
-          disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+          disabled={(date) =>
+            isPreDisable
+              ? date < new Date(new Date().setHours(0, 0, 0, 0))
+              : false
+          }
         />
       </PopoverContent>
     </Popover>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO:Fixe the type here
+import { Flight } from "@/lib/convertToIFlight";
 import {
   createSlice,
   createAsyncThunk,
@@ -12,7 +13,7 @@ interface PassengerInfo {
   title: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string;
+  dateOfBirth: Date | null;
   gender: string;
   passportNumber?: string;
   nationality: string;
@@ -29,7 +30,7 @@ interface BookingDetails {
 }
 
 interface BookingState {
-  selectedFlight: any | null;
+  selectedFlight: Flight | null;
   bookingDetails: BookingDetails | null;
   isLoading: boolean;
   error: string | null;
@@ -73,7 +74,7 @@ const bookingSlice = createSlice({
       action: PayloadAction<{
         passengerId: string;
         field: string;
-        value: string;
+        value: string | Date | null;
       }>
     ) => {
       if (state.bookingDetails) {
@@ -103,7 +104,7 @@ const bookingSlice = createSlice({
           title: "",
           firstName: "",
           lastName: "",
-          dateOfBirth: "",
+          dateOfBirth: null,
           gender: "",
           passportNumber: "",
           nationality: "",
@@ -119,7 +120,7 @@ const bookingSlice = createSlice({
           title: "",
           firstName: "",
           lastName: "",
-          dateOfBirth: "",
+          dateOfBirth: null,
           gender: "",
           nationality: "",
         });
@@ -132,7 +133,7 @@ const bookingSlice = createSlice({
           title: "",
           firstName: "",
           lastName: "",
-          dateOfBirth: "",
+          dateOfBirth: null,
           gender: "",
           nationality: "",
         });

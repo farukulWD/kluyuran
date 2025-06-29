@@ -80,7 +80,6 @@ export default function SearchHeader({ onSearchComplete }: Props) {
             visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
           }}
         >
-          {/* From - To Fields */}
           <motion.div
             className="md:col-span-2 relative"
             variants={{
@@ -129,7 +128,7 @@ export default function SearchHeader({ onSearchComplete }: Props) {
                   </SelectContent>
                 </Select>
               </div>
-              {/* Swap Button */}
+
               <motion.button
                 className="absolute top-8 left-[47%] transform -translate-x-[47%] w-8 h-8 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow z-10"
                 whileTap={{ rotate: 180 }}
@@ -154,7 +153,6 @@ export default function SearchHeader({ onSearchComplete }: Props) {
             </div>
           </motion.div>
 
-          {/* Date Picker */}
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 20 },
@@ -172,7 +170,6 @@ export default function SearchHeader({ onSearchComplete }: Props) {
             />
           </motion.div>
 
-          {/* Passenger Count */}
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 20 },
@@ -186,7 +183,6 @@ export default function SearchHeader({ onSearchComplete }: Props) {
             </div>
           </motion.div>
 
-          {/* Search Button */}
           <motion.div
             className="mt-auto"
             variants={{

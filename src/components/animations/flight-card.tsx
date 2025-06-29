@@ -17,7 +17,6 @@ export const AnimatedFlightCard = ({ flight, onBook }: FlightCardProps) => {
     <motion.div whileHover={{ y: -5 }} className="w-full">
       <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300 rounded-xl">
         <CardContent className="p-6 flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
-          {/* Airline Info */}
           <div className="flex items-center gap-4 w-52 min-w-max">
             <div className="w-10 h-10 relative">
               <Image
@@ -35,7 +34,6 @@ export const AnimatedFlightCard = ({ flight, onBook }: FlightCardProps) => {
             </div>
           </div>
 
-          {/* Flight Times */}
           <div className="flex items-center gap-8 text-center">
             <div>
               <p className="text-xl font-semibold">{flight.departure.time}</p>
@@ -60,7 +58,6 @@ export const AnimatedFlightCard = ({ flight, onBook }: FlightCardProps) => {
             </div>
           </div>
 
-          {/* Price + Book CTA */}
           <div className="text-center min-w-max">
             <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
               Cheapest

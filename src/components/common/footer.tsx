@@ -15,7 +15,6 @@ export default function Footer() {
     >
       <div className="container mx-auto px-4">
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-6 gap-8 mb-8">
-          {/* Brand and Social Media */}
           <StaggerItem className="md:col-span-2">
             <h3 className="text-2xl font-bold mb-6">Kluyuran</h3>
             <div className="flex space-x-3">
@@ -45,7 +44,6 @@ export default function Footer() {
             </div>
           </StaggerItem>
 
-          {/* About Column */}
           <StaggerItem>
             <h4 className="font-semibold mb-4 text-gray-900">About</h4>
             <ul className="space-y-3 text-gray-600 text-sm">
@@ -67,7 +65,6 @@ export default function Footer() {
             </ul>
           </StaggerItem>
 
-          {/* Features Column */}
           <StaggerItem>
             <h4 className="font-semibold mb-4 text-gray-900">Features</h4>
             <ul className="space-y-3 text-gray-600 text-sm">
@@ -86,7 +83,6 @@ export default function Footer() {
             </ul>
           </StaggerItem>
 
-          {/* Company Column */}
           <StaggerItem>
             <h4 className="font-semibold mb-4 text-gray-900">Company</h4>
             <ul className="space-y-3 text-gray-600 text-sm">
@@ -105,7 +101,6 @@ export default function Footer() {
             </ul>
           </StaggerItem>
 
-          {/* Contact Us & App Download */}
           <StaggerItem>
             <h4 className="font-semibold mb-4 text-gray-900">Contact Us</h4>
             <p className="text-muted-foreground mb-3 text-sm">

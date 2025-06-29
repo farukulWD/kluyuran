@@ -23,7 +23,7 @@ export default function SearchPage() {
 
   const flightsData = convertToIFlight(flights);
 
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  // const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   const [priceRange, setPriceRange] = useState([200, 100000]);
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
@@ -36,10 +36,10 @@ export default function SearchPage() {
   };
 
   const handleBookFlight = (flight: Flight) => {
-    if (!isAuthenticated) {
-      router.push(`/auth/signin?returnUrl=/book?flightId=${flight.id}`);
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   router.push(`/auth/signin?returnUrl=/book?flightId=${flight.id}`);
+    //   return;
+    // }
 
     dispatch(initializeBooking({ flight, passengerCount }));
     router.push("/book");
@@ -47,7 +47,6 @@ export default function SearchPage() {
 
   return (
     <PageTransition className=" bg-gray-100">
-      {/* Search Header */}
       <SearchHeader />
 
       <div className="container mx-auto px-4 py-6">
@@ -61,7 +60,6 @@ export default function SearchPage() {
             setSelectedDurations={setSelectedDurations}
           />
 
-          {/* Results Section */}
           {isLoading ? (
             <div className="flex justify-center items-center">
               <SearchingAnimation />
