@@ -42,9 +42,7 @@ export default function CustomDatePicker({
           selected={date}
           onSelect={onChange}
           captionLayout="dropdown"
-          disabled={(date) =>
-            date > new Date() || date < new Date("1900-01-01")
-          }
+          disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
         />
       </PopoverContent>
     </Popover>

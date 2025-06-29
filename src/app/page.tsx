@@ -1,7 +1,5 @@
 "use client";
 import { PageTransition } from "@/components/animations/page-transition";
-import Footer from "@/components/common/footer";
-import Navbar from "@/components/common/navbar";
 import SearchForm from "@/components/common/search-form";
 import ArticlesSection from "@/components/home-page/articles-section";
 import HeroSection from "@/components/home-page/hero-section";
@@ -13,7 +11,6 @@ import TopValueSection from "@/components/home-page/top-value-section";
 export default function Home() {
   return (
     <PageTransition className="min-h-screen bg-white">
-      <Navbar />
       <HeroSection />
       <SearchForm />
       <PopularPackage />
@@ -21,7 +18,6 @@ export default function Home() {
       <RecommendationsSections />
       <ArticlesSection />
       <NewsletterSection />
-      <Footer />
     </PageTransition>
   );
 }

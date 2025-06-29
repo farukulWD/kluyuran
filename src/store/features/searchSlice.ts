@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: Need fixed any type
+import axiosInstance from "@/lib/axios";
 import {
   createSlice,
   createAsyncThunk,
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-interface SearchParams {
+export interface SearchParams {
   origin: string;
   destination: string;
   departureDate: Date;
@@ -16,30 +19,59 @@ interface SearchParams {
   };
 }
 
-interface Flight {
-  id: string;
-  airline: string;
-  flightNumber: string;
-  departure: {
-    airport: string;
-    time: string;
-    date: Date;
-  };
-  arrival: {
-    airport: string;
-    time: string;
-    date: Date | undefined;
-  };
-  duration: string;
-  stops: string;
-  price: number;
-  class: string;
-  refundable: boolean;
+export interface IFlight {
+  travel_type: string;
+  resultid: string;
+  salecurrencycode: string;
+  air_logo: string;
+  itin_details: ItinDetail[];
+  variants: any[];
+  variant_count: number;
+  price_info: IPriceInfo;
+}
+
+export interface ItinDetail {
+  origindestinationorder: number;
+  fare_rule: string;
+  layover: number;
+  flight_data: IFlightData[];
+}
+
+export interface IFlightData {
+  refsegment: string;
+  holdable_status: number;
+  air_logo: string;
+  airline_name: string;
+  currency: string;
+  carrier: string;
+  bookingclasscode: string;
+  flight_name: string;
+  airlinedesignator: string;
+  flightnumber: string;
+  equipmentcode: string;
+  equipmenttext: string;
+  departuredate: string;
+  arrivaldate: string;
+  origincode: string;
+  destinationcode: string;
+  duration: number;
+  baggage_details: string;
+  pax_baggage: IPaxBaggage;
+}
+
+export interface IPaxBaggage {
+  adult: string;
+}
+
+export interface IPriceInfo {
+  base: number;
+  total: number;
+  currency: string;
 }
 
 interface SearchState {
   searchParams: SearchParams | null;
-  flights: Flight[];
+  flights: IFlight[];
   isLoading: boolean;
   error: string | null;
 }
@@ -54,74 +86,9 @@ const initialState: SearchState = {
 export const searchFlights = createAsyncThunk(
   "search/searchFlights",
   async (params: SearchParams) => {
-    // Simulate API call to https://api.tbp.travel/flights
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const response = await axiosInstance.post("/flights", params);
 
-    // Mock flight data
-    const mockFlights: Flight[] = [
-      {
-        id: "1",
-        airline: "Singapore Airlines",
-        flightNumber: "SQ-123",
-        departure: {
-          airport: params.origin,
-          time: "12:10",
-          date: params.departureDate as Date,
-        },
-        arrival: {
-          airport: params.destination,
-          time: "15:30",
-          date: params.departureDate,
-        },
-        duration: "3h 20min",
-        stops: "Non Stop",
-        price: 450,
-        class: "Business Class",
-        refundable: true,
-      },
-      {
-        id: "2",
-        airline: "Qatar Airways",
-        flightNumber: "QR-456",
-        departure: {
-          airport: params.origin,
-          time: "14:30",
-          date: params.departureDate,
-        },
-        arrival: {
-          airport: params.destination,
-          time: "18:45",
-          date: params.departureDate,
-        },
-        duration: "4h 15min",
-        stops: "1 Stop",
-        price: 380,
-        class: "Economy Class",
-        refundable: false,
-      },
-      {
-        id: "3",
-        airline: "Emirates",
-        flightNumber: "EK-789",
-        departure: {
-          airport: params.origin,
-          time: "16:00",
-          date: params.departureDate,
-        },
-        arrival: {
-          airport: params.destination,
-          time: "20:30",
-          date: params.departureDate,
-        },
-        duration: "4h 30min",
-        stops: "Non Stop",
-        price: 520,
-        class: "Business Class",
-        refundable: true,
-      },
-    ];
-
-    return mockFlights;
+    return response.data?.data;
   }
 );
 
