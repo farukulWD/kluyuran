@@ -15,12 +15,14 @@ interface DatePickerProps {
   date?: Date;
   onChange: (date: Date | undefined) => void;
   placeholder?: string;
+  className?: string;
 }
 
 export default function CustomDatePicker({
   date,
   onChange,
   placeholder,
+  className,
 }: DatePickerProps) {
   return (
     <Popover>
@@ -29,7 +31,9 @@ export default function CustomDatePicker({
           variant="outline"
           className={cn(
             "w-[240px] flex justify-start pl-3 text-left font-normal",
-            !date && "text-muted-foreground"
+
+            !date && "text-muted-foreground",
+            className
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
