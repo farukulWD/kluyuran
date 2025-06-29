@@ -1,16 +1,27 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
-import searchReducer from "@/store/features/searchSlice";
-import authReducer from "@/store/features/authSlice";
-import bookingReducer from "@/store/features/bookingSlice";
 
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import { reducer } from "./root-reducer";
 export const store = configureStore({
-  reducer: {
-    search: searchReducer,
-    auth: authReducer,
-    booking: bookingReducer,
-  },
+  reducer: reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

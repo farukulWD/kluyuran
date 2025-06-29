@@ -78,7 +78,6 @@ const FiltersSidebar = ({
             </Button>
           </div>
 
-          {/* Airlines */}
           <div className="mb-6">
             <div className="flex justify-between mb-3">
               <h4 className="font-medium">Airlines</h4>
@@ -125,7 +124,6 @@ const FiltersSidebar = ({
             </AnimatePresence>
           </div>
 
-          {/* Price Range */}
           <div className="mb-6">
             <div className="flex justify-between mb-3">
               <h4 className="font-medium">Price</h4>
@@ -166,7 +164,6 @@ const FiltersSidebar = ({
             </AnimatePresence>
           </div>
 
-          {/* Duration */}
           <div className="mb-6">
             <div className="flex justify-between mb-3">
               <h4 className="font-medium">Duration</h4>
