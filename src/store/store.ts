@@ -1,10 +1,14 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "@/store/features/searchSlice";
+import authReducer from "@/store/features/authSlice";
+import bookingReducer from "@/store/features/bookingSlice";
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
+    auth: authReducer,
+    booking: bookingReducer,
   },
 });
 

@@ -1,0 +1,92 @@
+[
+    {
+        "travel_type": "oneway",
+        "resultid": "SUQtMTsyMDI1LTA3LTA1VDAyOjAwOjAwLjAwMFo7MjAyNS0wNy0wNVQwNjo0MDowMC4wMDBa",
+        "salecurrencycode": "BDT",
+        "air_logo": "https://env-9893493.nl.realcloud.in/tbp/air_logo/TG.svg",
+        "itin_details": [
+            {
+                "origindestinationorder": 1,
+                "fare_rule": "FR_1",
+                "layover": 0,
+                "flight_data": [
+                    {
+                        "refsegment": "-1001",
+                        "holdable_status": 1,
+                        "air_logo": "https://env-9893493.nl.realcloud.in/tbp/air_logo/TG.svg",
+                        "airline_name": "Thai Airways",
+                        "currency": "BDT",
+                        "carrier": "TG",
+                        "bookingclasscode": "M",
+                        "flight_name": "TG-301",
+                        "airlinedesignator": "TG",
+                        "flightnumber": "301",
+                        "equipmentcode": "738",
+                        "equipmenttext": "Boeing 737-800",
+                        "departuredate": "2025-07-05T02:00:00.000Z",
+                        "arrivaldate": "2025-07-05T06:40:00.000Z",
+                        "origincode": "DAC",
+                        "destinationcode": "SIN",
+                        "duration": 280,
+                        "baggage_details": "30.0 Kg",
+                        "pax_baggage": {
+                            "adult": "30 KG"
+                        }
+                    }
+                ]
+            }
+        ],
+        "variants": [],
+        "variant_count": 0,
+        "price_info": {
+            "base": 6621,
+            "total": 19863,
+            "currency": "BDT"
+        }
+    },
+    {
+        "travel_type": "oneway",
+        "resultid": "SUQtMjsyMDI1LTA3LTA1VDE3OjAwOjAwLjAwMFo7MjAyNS0wNy0wNVQyMjoxMDowMC4wMDBa",
+        "salecurrencycode": "BDT",
+        "air_logo": "https://env-9893493.nl.realcloud.in/tbp/air_logo/QR.svg",
+        "itin_details": [
+            {
+                "origindestinationorder": 1,
+                "fare_rule": "FR_2",
+                "layover": 0,
+                "flight_data": [
+                    {
+                        "refsegment": "-1002",
+                        "holdable_status": 1,
+                        "air_logo": "https://env-9893493.nl.realcloud.in/tbp/air_logo/QR.svg",
+                        "airline_name": "Qatar Airways",
+                        "currency": "BDT",
+                        "carrier": "QR",
+                        "bookingclasscode": "M",
+                        "flight_name": "QR-302",
+                        "airlinedesignator": "QR",
+                        "flightnumber": "302",
+                        "equipmentcode": "738",
+                        "equipmenttext": "Boeing 737-800",
+                        "departuredate": "2025-07-05T17:00:00.000Z",
+                        "arrivaldate": "2025-07-05T22:10:00.000Z",
+                        "origincode": "DAC",
+                        "destinationcode": "SIN",
+                        "duration": 310,
+                        "baggage_details": "30.0 Kg",
+                        "pax_baggage": {
+                            "adult": "30 KG"
+                        }
+                    }
+                ]
+            }
+        ],
+        "variants": [],
+        "variant_count": 0,
+        "price_info": {
+            "base": 5489,
+            "total": 16467,
+            "currency": "BDT"
+        }
+    }
+]

@@ -28,7 +28,7 @@ import {
 import { SearchFormSchema, searchSchema } from "@/lib/search-schema";
 import CustomDatePicker from "./custom-date-picker";
 
-const airportOptions = [
+export const airportOptions = [
   { value: "DAC", label: "Dhaka (DAC)" },
   { value: "DXB", label: "Dubai (DXB)" },
   { value: "SIN", label: "Singapore (SIN)" },
