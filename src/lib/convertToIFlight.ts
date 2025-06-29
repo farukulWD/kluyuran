@@ -7,6 +7,7 @@ export interface Flight {
   salecurrencycode: string;
   airline_logo: string;
   refundable: boolean;
+  baggage_details: string;
   departure: {
     time: string;
     airport: string;
@@ -41,6 +42,8 @@ export function convertToIFlight(data: IFlight[]): Flight[] {
 
     return {
       id: item.resultid,
+      baggage_details: flight.baggage_details,
+      pax_baggage: flight.pax_baggage.adult,
       airline_name: flight.airline_name,
       salecurrencycode: item.salecurrencycode,
       airline_logo: flight.air_logo,
@@ -64,7 +67,7 @@ export function convertToIFlight(data: IFlight[]): Flight[] {
           : "Non Stop",
       flightNumber: flight.flight_name,
       class: "Business Class",
-      price: item.price_info.total, // Convert BDT to USD (example rate)
+      price: item.price_info.total,
     };
   });
 }

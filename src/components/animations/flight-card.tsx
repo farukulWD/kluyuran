@@ -9,26 +9,12 @@ import { Flight } from "@/lib/convertToIFlight";
 interface FlightCardProps {
   flight: Flight;
   onBook: (flight: Flight) => void;
-  index: number;
+  index?: number;
 }
 
-export const AnimatedFlightCard = ({
-  flight,
-  onBook,
-  index,
-}: FlightCardProps) => {
+export const AnimatedFlightCard = ({ flight, onBook }: FlightCardProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-      whileHover={{ y: -5 }}
-      className="w-full"
-    >
+    <motion.div whileHover={{ y: -5 }} className="w-full">
       <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300 rounded-xl">
         <CardContent className="p-6 flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
           {/* Airline Info */}
@@ -75,16 +61,15 @@ export const AnimatedFlightCard = ({
           </div>
 
           {/* Price + Book CTA */}
-          <div className="text-right min-w-max">
+          <div className="text-center min-w-max">
+            <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
+              Cheapest
+            </span>
             <p className="text-lg font-bold text-blue-700">
-              {flight.salecurrencycode === "BDT" ? "Taka" : "$"}
-              {flight.price}
+              {flight.salecurrencycode === "BDT" ? "BDT" : "$"} {flight.price}
             </p>
             <p className="text-sm text-gray-600">{flight.class}</p>
             <div className="flex items-center justify-end gap-2 mt-2">
-              <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
-                Cheapest
-              </span>
               <Button
                 className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2"
                 onClick={() => onBook(flight)}
