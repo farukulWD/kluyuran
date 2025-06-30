@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearError, signUpUser } from "@/store/features/authSlice";
 import { toast } from "sonner";
+import { PageTransition } from "@/components/animations/page-transition";
 
 const formSchema = z
   .object({
@@ -52,6 +53,8 @@ type SignUpFormValues = z.infer<typeof formSchema>;
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl") || "/";
 
   const dispatch = useAppDispatch();
   const { isLoading, error, isAuthenticated } = useAppSelector(
@@ -77,7 +80,7 @@ export default function SignUpPage() {
           password: data.password,
           displayName: data.displayName,
         })
-      ).unwrap(); 
+      ).unwrap();
 
       toast.success("Account Created", {
         description: `Welcome, ${result.displayName}!`,
@@ -93,16 +96,16 @@ export default function SignUpPage() {
   useEffect(() => {
     if (isAuthenticated) {
       document.cookie = "auth-token=authenticated; path=/";
-      router.push("/");
+      router.push(returnUrl);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, returnUrl]);
 
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <PageTransition className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
@@ -124,7 +127,11 @@ export default function SignUpPage() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your full name" {...field} />
+                      <Input
+                        className="w-full"
+                        placeholder="Enter your full name"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,7 +230,7 @@ export default function SignUpPage() {
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
               <Link
-                href="/auth/signin"
+                href="/sign-in"
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 Sign In
@@ -232,6 +239,6 @@ export default function SignUpPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </PageTransition>
   );
 }

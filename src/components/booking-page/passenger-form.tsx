@@ -99,14 +99,14 @@ export function PassengerForm({
               <Input
                 required
                 placeholder="First Name"
-                value={formData.firstname}
+                value={formData.firstName}
                 onChange={(e) =>
                   onChange(passenger.id, "firstname", e.target.value)
                 }
               />
-              {getError("firstname") && (
+              {getError("firstName") && (
                 <p className="text-sm text-red-500 mt-1">
-                  {getError("firstname")}
+                  {getError("firstName")}
                 </p>
               )}
             </StaggerItem>
@@ -119,14 +119,14 @@ export function PassengerForm({
               <Input
                 required
                 placeholder="Last Name"
-                value={formData.lastname}
+                value={formData.lastName}
                 onChange={(e) =>
                   onChange(passenger.id, "lastname", e.target.value)
                 }
               />
-              {getError("lastname") && (
+              {getError("lastName") && (
                 <p className="text-sm text-red-500 mt-1">
-                  {getError("lastname")}
+                  {getError("lastName")}
                 </p>
               )}
             </StaggerItem>
