@@ -64,7 +64,7 @@ export default function SignInPage() {
       document.cookie = "auth-token=authenticated; path=/";
       router.push(returnUrl);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, returnUrl]);
 
   useEffect(() => {
     dispatch(clearError());
