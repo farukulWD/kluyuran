@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import { initializeBooking } from "@/store/features/bookingSlice";
 import { convertToIFlight, Flight } from "@/lib/convertToIFlight";
-import SearchHeader from "../../components/search-page/search-header";
+import SearchHeader from "../../../components/search-page/search-header";
 
 import FiltersSidebar from "@/components/search-page/filters-sidebar";
 import FlightResults from "@/components/search-page/flight-results";
