@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/page-transition";
 import { Flight } from "@/lib/convertToIFlight";
+import { PassengerInfo } from "@/store/features/bookingSlice";
 
 export function BookingReview({
   passengers,
@@ -13,7 +14,7 @@ export function BookingReview({
   onConfirm,
   isLoading,
 }: {
-  passengers: any[];
+  passengers: PassengerInfo[];
   flight: Flight;
   totalPrice: number;
   onEdit: () => void;
@@ -37,7 +38,7 @@ export function BookingReview({
                 </p>
                 <p>Type: {p.type}</p>
                 <p>Gender: {p.gender}</p>
-                <p>DOB: {p.dateOfBirth}</p>
+                {/* <p>DOB: {p.dateOfBirth}</p> */}
                 <p>Nationality: {p.nationality}</p>
                 {p.passportNumber && <p>Passport: {p.passportNumber}</p>}
               </div>

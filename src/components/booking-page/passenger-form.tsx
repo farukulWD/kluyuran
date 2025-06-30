@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -20,15 +21,21 @@ interface PassengerFormProps {
   passenger: any;
   index: number;
   onChange: (id: string, field: string, value: string | Date | null) => void;
+  formData: any;
+  formErrors: Record<string, string>;
 }
 
 export function PassengerForm({
   passenger,
   index,
   onChange,
+  formData,
+  formErrors,
 }: PassengerFormProps) {
   const badgeColor =
     passenger.type === "adult" ? "bg-blue-600" : "bg-green-600";
+
+  const getError = (field: string) => formErrors?.[field];
 
   return (
     <motion.div
@@ -57,77 +64,125 @@ export function PassengerForm({
           </motion.div>
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-            {[
-              { label: "Title", type: "select" },
-              { label: "First Name", type: "input" },
-              { label: "Last Name", type: "input" },
-              { label: "Gender", type: "select" },
-            ].map((field, fieldIndex) => (
-              <StaggerItem key={fieldIndex}>
-                <label className="block text-sm font-medium mb-2">
-                  {field.label}
-                  <span className="text-red-500">*</span>
-                </label>
-                {field.type === "select" ? (
-                  <Select
-                    onValueChange={(value) =>
-                      onChange(passenger.id, field.label.toLowerCase(), value)
-                    }
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder={`Select ${field.label}`} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {field.label === "Title" ? (
-                        <>
-                          <SelectItem value="mr">Mr.</SelectItem>
-                          <SelectItem value="mrs">Mrs.</SelectItem>
-                          <SelectItem value="ms">Ms.</SelectItem>
-                          <SelectItem value="dr">Dr.</SelectItem>
-                        </>
-                      ) : (
-                        <>
-                          <SelectItem value="male">Male</SelectItem>
-                          <SelectItem value="female">Female</SelectItem>
-                        </>
-                      )}
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <Input
-                    required
-                    placeholder={field.label}
-                    onChange={(e) =>
-                      onChange(
-                        passenger.id,
-                        field.label.toLowerCase().replace(" ", ""),
-                        e.target.value
-                      )
-                    }
-                  />
-                )}
-              </StaggerItem>
-            ))}
+            {/* Title */}
+            <StaggerItem>
+              <label className="block text-sm font-medium mb-2">
+                Title<span className="text-red-500">*</span>
+              </label>
+              <Select
+                required
+                onValueChange={(value) =>
+                  onChange(passenger.id, "title", value)
+                }
+                value={formData.title}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Title" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="mr">Mr.</SelectItem>
+                  <SelectItem value="mrs">Mrs.</SelectItem>
+                  <SelectItem value="ms">Ms.</SelectItem>
+                  <SelectItem value="dr">Dr.</SelectItem>
+                </SelectContent>
+              </Select>
+              {getError("title") && (
+                <p className="text-sm text-red-500 mt-1">{getError("title")}</p>
+              )}
+            </StaggerItem>
+
+            {/* First Name */}
+            <StaggerItem>
+              <label className="block text-sm font-medium mb-2">
+                First Name<span className="text-red-500">*</span>
+              </label>
+              <Input
+                required
+                placeholder="First Name"
+                value={formData.firstname}
+                onChange={(e) =>
+                  onChange(passenger.id, "firstname", e.target.value)
+                }
+              />
+              {getError("firstname") && (
+                <p className="text-sm text-red-500 mt-1">
+                  {getError("firstname")}
+                </p>
+              )}
+            </StaggerItem>
+
+            {/* Last Name */}
+            <StaggerItem>
+              <label className="block text-sm font-medium mb-2">
+                Last Name<span className="text-red-500">*</span>
+              </label>
+              <Input
+                required
+                placeholder="Last Name"
+                value={formData.lastname}
+                onChange={(e) =>
+                  onChange(passenger.id, "lastname", e.target.value)
+                }
+              />
+              {getError("lastname") && (
+                <p className="text-sm text-red-500 mt-1">
+                  {getError("lastname")}
+                </p>
+              )}
+            </StaggerItem>
+
+            {/* Gender */}
+            <StaggerItem>
+              <label className="block text-sm font-medium mb-2">
+                Gender<span className="text-red-500">*</span>
+              </label>
+              <Select
+                required
+                onValueChange={(value) =>
+                  onChange(passenger.id, "gender", value)
+                }
+                value={formData.gender}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                </SelectContent>
+              </Select>
+              {getError("gender") && (
+                <p className="text-sm text-red-500 mt-1">
+                  {getError("gender")}
+                </p>
+              )}
+            </StaggerItem>
           </StaggerContainer>
 
+          {/* DOB, Passport (Adult only), Nationality */}
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* DOB */}
             <StaggerItem>
               <label className="block text-sm font-medium mb-2">
                 Date of Birth<span className="text-red-500">*</span>
               </label>
-
               <CustomDatePicker
                 className="w-full"
                 onChange={(date) => {
                   onChange(passenger.id, "dateOfBirth", date as Date);
                 }}
-                date={passenger.dateOfBirth}
+                date={formData.dateOfBirth}
                 placeholder="Date Of Birth"
                 isPreDisable={false}
               />
+              {getError("dateOfBirth") && (
+                <p className="text-sm text-red-500 mt-1">
+                  {getError("dateOfBirth")}
+                </p>
+              )}
             </StaggerItem>
 
+            {/* Passport Number (Adult only) */}
             {passenger.type === "adult" && (
               <StaggerItem>
                 <label className="block text-sm font-medium mb-2">
@@ -136,13 +191,20 @@ export function PassengerForm({
                 <Input
                   required
                   placeholder="Passport Number"
+                  value={formData.passportNumber}
                   onChange={(e) =>
                     onChange(passenger.id, "passportNumber", e.target.value)
                   }
                 />
+                {getError("passportNumber") && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {getError("passportNumber")}
+                  </p>
+                )}
               </StaggerItem>
             )}
 
+            {/* Nationality */}
             <StaggerItem>
               <label className="block text-sm font-medium mb-2">
                 Nationality<span className="text-red-500">*</span>
@@ -152,6 +214,7 @@ export function PassengerForm({
                 onValueChange={(value) =>
                   onChange(passenger.id, "nationality", value)
                 }
+                value={formData.nationality}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Country" />
@@ -163,6 +226,11 @@ export function PassengerForm({
                   <SelectItem value="uk">United Kingdom</SelectItem>
                 </SelectContent>
               </Select>
+              {getError("nationality") && (
+                <p className="text-sm text-red-500 mt-1">
+                  {getError("nationality")}
+                </p>
+              )}
             </StaggerItem>
           </StaggerContainer>
         </CardContent>
