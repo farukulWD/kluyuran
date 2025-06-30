@@ -1,25 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// BookingPage.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { motion } from "framer-motion";
-import {
-  confirmBooking,
-  updatePassengerInfo,
-} from "@/store/features/bookingSlice";
 import {
   PageTransition,
   ScaleIn,
 } from "@/components/animations/page-transition";
-
+import {
+  confirmBooking,
+  updatePassengerInfo,
+} from "@/store/features/bookingSlice";
 import { generateTicketPDF } from "@/lib/utils/pdfGenerator";
-
+import { useBookingSteps } from "@/hooks/useBookingSteps";
 import { BookingSteps } from "@/components/booking-page/booking-steps";
 import { BookingReview } from "@/components/booking-page/booking-review";
 import { PassengerForm } from "@/components/booking-page/passenger-form";
@@ -30,7 +28,54 @@ export default function BookingPage() {
   const { selectedFlight, bookingDetails, isLoading } = useAppSelector(
     (state) => state.booking
   );
-  const [currentStep, setCurrentStep] = useState(1);
+
+  const steps = useBookingSteps();
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+
+  // Initialize formData & formErrors from passengers
+  const [formData, setFormData] = useState(() => {
+    if (!bookingDetails) return {};
+    return bookingDetails.passengers.reduce((acc: any, p: any) => {
+      acc[p.id] = {
+        title: "",
+        firstname: "",
+        lastname: "",
+        gender: "",
+        dateOfBirth: null,
+        nationality: "",
+        passportNumber: "",
+      };
+      return acc;
+    }, {});
+  });
+
+  const [formErrors, setFormErrors] = useState(() => {
+    if (!bookingDetails) return {};
+    return bookingDetails.passengers.reduce((acc: any, p: any) => {
+      acc[p.id] = {};
+      return acc;
+    }, {});
+  });
+
+  useEffect(() => {
+    // Sync formData with bookingDetails if they change (optional)
+    if (!bookingDetails) return;
+    const newData = { ...formData };
+    bookingDetails.passengers.forEach((p) => {
+      if (!newData[p.id]) {
+        newData[p.id] = {
+          title: "",
+          firstname: "",
+          lastname: "",
+          gender: "",
+          dateOfBirth: null,
+          nationality: "",
+          passportNumber: "",
+        };
+      }
+    });
+    setFormData(newData);
+  }, [bookingDetails]);
 
   if (!selectedFlight || !bookingDetails) {
     return (
@@ -47,21 +92,106 @@ export default function BookingPage() {
     );
   }
 
-  const handlePassengerUpdate = (
+  const currentStepItem = steps[currentStepIndex];
+  const passenger = bookingDetails.passengers.find(
+    (p) => p.id === currentStepItem.id
+  );
+
+  const handleChange = (
     passengerId: string,
     field: string,
     value: string | Date | null
   ) => {
+    // Update form data
+    setFormData((prev: any) => ({
+      ...prev,
+      [passengerId]: {
+        ...prev[passengerId],
+        [field]: value,
+      },
+    }));
+
+    // Validate field live
+    setFormErrors((prev: any) => {
+      const isEmpty =
+        !value || (typeof value === "string" && value.trim() === "");
+      return {
+        ...prev,
+        [passengerId]: {
+          ...prev[passengerId],
+          [field]: isEmpty ? `${field} is required` : "",
+        },
+      };
+    });
+
+    // Update Redux store as well
     dispatch(updatePassengerInfo({ passengerId, field, value }));
   };
 
-  const handleNextStep = async () => {
-    if (currentStep === 1) {
-      setCurrentStep(2);
-    } else if (currentStep === 2) {
-      await dispatch(confirmBooking(bookingDetails));
-      setCurrentStep(3);
+  // Validation helper for current step passenger
+  const validateCurrentStep = (): boolean => {
+    if (!passenger) return false;
+    const currentData = formData[passenger.id];
+    if (!currentData) return false;
+
+    const requiredFields = [
+      "title",
+      "firstname",
+      "lastname",
+      "gender",
+      "dateOfBirth",
+      "nationality",
+    ];
+
+    if (passenger.type === "adult") requiredFields.push("passportNumber");
+
+    let valid = true;
+    const newErrors: Record<string, string> = {};
+
+    requiredFields.forEach((field) => {
+      const value = currentData[field];
+      if (
+        value === null ||
+        value === undefined ||
+        (typeof value === "string" && value.trim() === "")
+      ) {
+        newErrors[field] = `${field} is required`;
+        valid = false;
+      } else {
+        newErrors[field] = "";
+      }
+    });
+
+    setFormErrors((prev: any) => ({
+      ...prev,
+      [passenger.id]: {
+        ...prev[passenger.id],
+        ...newErrors,
+      },
+    }));
+
+    return valid;
+  };
+
+  const handleNext = async () => {
+    // Validate current passenger step if passenger step
+    if (passenger) {
+      const isValid = validateCurrentStep();
+      if (!isValid) {
+        alert("Please fill all required fields correctly before continuing.");
+        return;
+      }
     }
+
+    if (currentStepItem.id === "review") {
+      await dispatch(confirmBooking(bookingDetails));
+    }
+
+    setCurrentStepIndex((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
+  const handlePrevious = () => {
+    setCurrentStepIndex((prev) => Math.max(prev - 1, 0));
   };
 
   const downloadTicket = () => {
@@ -77,7 +207,10 @@ export default function BookingPage() {
     doc.save(`kluyuran-ticket-${bookingDetails.bookingReference}.pdf`);
   };
 
-  if (currentStep === 3 && bookingDetails.status === "confirmed") {
+  if (
+    currentStepItem.id === "confirmation" &&
+    bookingDetails.status === "confirmed"
+  ) {
     return (
       <PageTransition className="min-h-screen bg-gray-50 flex items-center justify-center">
         <ScaleIn>
@@ -106,38 +239,55 @@ export default function BookingPage() {
   return (
     <PageTransition className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
-        <BookingSteps currentStep={currentStep} />
+        <BookingSteps currentStep={currentStepIndex + 1} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            {currentStep === 1 && (
-              <AnimatePresence>
-                {bookingDetails.passengers.map((passenger, index) => (
-                  <PassengerForm
-                    key={passenger.id}
-                    passenger={passenger}
-                    index={index}
-                    onChange={handlePassengerUpdate}
-                  />
-                ))}
-                <div className="text-right mt-4">
-                  <Button onClick={handleNextStep}>Continue to Review</Button>
-                </div>
-              </AnimatePresence>
-            )}
+            <AnimatePresence>
+              {passenger && (
+                <PassengerForm
+                  passenger={passenger}
+                  index={currentStepIndex}
+                  onChange={handleChange}
+                  formData={formData[passenger.id]}
+                  formErrors={formErrors[passenger.id]}
+                />
+              )}
 
-            {currentStep === 2 && (
-              <BookingReview
-                passengers={bookingDetails.passengers}
-                flight={selectedFlight}
-                totalPrice={bookingDetails.totalPrice}
-                onEdit={() => setCurrentStep(1)}
-                onConfirm={handleNextStep}
-                isLoading={isLoading}
-              />
+              {currentStepItem.id === "review" && (
+                <BookingReview
+                  passengers={bookingDetails.passengers}
+                  flight={selectedFlight}
+                  totalPrice={bookingDetails.totalPrice}
+                  onEdit={() => setCurrentStepIndex(0)}
+                  onConfirm={handleNext}
+                  isLoading={isLoading}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Navigation Buttons */}
+            {currentStepItem.id !== "review" && passenger && (
+              <div className="flex justify-between mt-6">
+                <Button
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={currentStepIndex === 0}
+                >
+                  Previous
+                </Button>
+                <Button onClick={handleNext}>
+                  {currentStepIndex === steps.length - 2
+                    ? isLoading
+                      ? "Processing..."
+                      : "Continue to Review"
+                    : "Next"}
+                </Button>
+              </div>
             )}
           </div>
 
+          {/* Sidebar Summary */}
           <motion.div
             className="lg:col-span-1"
             initial={{ x: 50, opacity: 0 }}
@@ -147,7 +297,6 @@ export default function BookingPage() {
             <Card>
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-4">Booking Summary</h3>
-                {/* Summary items */}
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between">
                     <span>Flight</span>
@@ -162,36 +311,6 @@ export default function BookingPage() {
                     <span>${bookingDetails.totalPrice}</span>
                   </div>
                 </div>
-
-                {/* Button stays in sidebar */}
-                {currentStep === 1 && (
-                  <Button
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                    onClick={handleNextStep}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Processing..." : "Confirm Booking"}
-                  </Button>
-                )}
-                {currentStep === 2 && (
-                  <>
-                    <Button
-                      variant="outline"
-                      className="w-full mb-2"
-                      onClick={() => setCurrentStep(1)}
-                      disabled={isLoading}
-                    >
-                      Edit Details
-                    </Button>
-                    <Button
-                      className="w-full bg-blue-600 hover:bg-blue-700"
-                      onClick={handleNextStep}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Processing..." : "Finalize Booking"}
-                    </Button>
-                  </>
-                )}
               </CardContent>
             </Card>
           </motion.div>
