@@ -21,6 +21,7 @@ export function BookingReview({
   onConfirm: () => void;
   isLoading: boolean;
 }) {
+  console.log(passengers);
   return (
     <FadeIn delay={0.1}>
       <Card className="mb-6">

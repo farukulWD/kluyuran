@@ -38,8 +38,8 @@ export default function BookingPage() {
     return bookingDetails.passengers.reduce((acc: any, p: any) => {
       acc[p.id] = {
         title: "",
-        firstname: "",
-        lastname: "",
+        firstName: "",
+        lastName: "",
         gender: "",
         dateOfBirth: null,
         nationality: "",
@@ -174,7 +174,6 @@ export default function BookingPage() {
   };
 
   const handleNext = async () => {
-    // Validate current passenger step if passenger step
     if (passenger) {
       const isValid = validateCurrentStep();
       if (!isValid) {
