@@ -1,196 +1,187 @@
-# Travel Booking Platform
+# Khuyendu - Travel Booking Platform
 
-A comprehensive travel booking platform built with Next.js 14, TypeScript, and Tailwind CSS. This application provides a complete flight booking experience from search to passenger information collection.
+A comprehensive travel booking platform built with Next.js 14, TypeScript, Redux Toolkit, and Tailwind CSS.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://kluyuran-kohl.vercel.app/)
 
 ## Features
 
-### 🏠 Home Page
-- Hero section with search functionality
-- Popular travel packages showcase
-- Value proposition section
-- Travel recommendations with ratings and pricing
-- Newsletter subscription
-- Responsive design
+### ✅ Completed Features
+- **Home Page** with hero section, search form, and popular packages
+- **Search Results Page** with flight listings and filtering
+- **Authentication System** (Sign In/Sign Up) with middleware protection
+- **Dynamic Booking Forms** based on passenger count and types
+- **Redux State Management** for auth, search, and booking
+- **Ticket Download** functionality after successful booking
+- **Responsive Design** with Tailwind CSS
+- **Protected Routes** with middleware
+- **Animation** with framer motion
 
-### 🔍 Search & Results
-- Advanced flight search with filters
-- Real-time flight results display
-- Filter by stops, airlines, price range, and duration
-- Sorting options (Recommended, Fastest, Cheapest)
-- Responsive flight cards with detailed information
+### 🔧 Technical Implementation
+- **Next.js 14** with App Router
+- **TypeScript** for type safety
+- **Redux Toolkit** for state management
+- **Middleware** for route protection
+- **Dynamic Form Generation** based on passenger data
+- **API Integration** for flight search
+- **File Download** for booking confirmation
+- **Animation** for Beautiful visualization
 
-### 👤 Authentication
-- Simple login system (Firebase integration ready)
-- Protected booking routes
-- User session management
+## Setup & Installation
 
-### 📝 Booking Flow
-- Multi-step booking process (Details → Review → Payment)
-- Dynamic passenger forms based on search criteria
-- Adult and children form variations
-- Comprehensive passenger information collection
-- Booking summary with price breakdown
-- Terms and conditions acceptance
+1. **Clone the repository**
+   \`\`\`bash
+   git clone <repository-url>
+   cd travel-booking-platform
+   \`\`\`
 
-## Tech Stack
+2. **Install dependencies**
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **State Management**: React Context API
-- **Date Handling**: date-fns
-- **Icons**: Lucide React
+3. **Run the development server**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
-## Getting Started
+4. **Open your browser**
+   Navigate to `http://localhost:3000`
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+## Usage Guide
 
-### Installation
+### 1. Search Flights
+- Fill in the search form on the home page
+- Select origin, destination, dates, and passenger count
+- Click "Search Flights" to view results
 
-1. Clone the repository:
-\`\`\`bash
-git clone <repository-url>
-cd travel-booking-platform
-\`\`\`
+### 2. Authentication
+- Click "Book Now" on any flight (redirects to login if not authenticated)
+- Use demo credentials:
+  - Email: `test@example.com`
+  - Password: `password`
+- Or create a new account via Sign Up
 
-2. Install dependencies:
-\`\`\`bash
-npm install
-# or
-yarn install
-\`\`\`
+### 3. Booking Process
+- After login, you'll be redirected to the booking page
+- Fill in passenger information (forms generated dynamically)
+- Confirm booking to receive booking reference
+- Download your ticket as JSON file
 
-3. Run the development server:
-\`\`\`bash
-npm run dev
-# or
-yarn dev
-\`\`\`
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Project Structure
-
-\`\`\`
-├── app/                    # Next.js App Router pages
-│   ├── booking/           # Booking page with dynamic routes
-│   ├── login/             # Authentication page
-│   ├── search/            # Search results page
-│   └── page.tsx           # Home page
-├── components/            # Reusable UI components
-│   ├── ui/               # shadcn/ui components
-│   ├── Header.tsx        # Navigation header
-│   ├── HeroSection.tsx   # Home page hero
-│   ├── SearchForm.tsx    # Flight search form
-│   ├── FlightResults.tsx # Search results display
-│   └── ...               # Other components
-├── contexts/             # React Context providers
-│   ├── AuthContext.tsx   # Authentication state
-│   └── SearchContext.tsx # Search state management
-└── public/               # Static assets
-\`\`\`
 
 ## API Integration
 
-### Flight Search API
-- **Endpoint**: `https://api.tbp.travel/flights`
+### Search API
+- **Endpoint**: `https://api.tbp.travel/flights` (mocked)
 - **Method**: POST
 - **Payload**:
-\`\`\`json
-{
-  "origin": "DAC",
-  "destination": "DXB", 
-  "departureDate": "12 Oct 2025",
-  "returnDate": "20 Aug 2025",
-  "passenger": {
-    "adult": 2,
-    "children": 0,
-    "infant": 0
+  \`\`\`json
+  {
+    "origin": "DAC",
+    "destination": "DXB", 
+    "departureDate": "12 Oct 2025",
+    "returnDate": "20 Aug 2025",
+    "passenger": {
+      "adult": 2,
+      "children": 0,
+      "infant": 0
+    }
   }
-}
-\`\`\`
+  \`\`\`
 
 ### Authentication
-- Firebase integration ready
-- Mock authentication implemented for demo
+- using mock Firebase authentication
 
-## Key Features Implementation
 
-### 🔄 Dynamic Passenger Forms
-- Forms automatically adjust based on passenger count
-- Separate validation for adults and children
-- Real-time form state management
+## Key Features Explained
 
-### 🎯 Smart Routing
-- Protected routes for booking
-- Automatic login redirect for unauthenticated users
-- Seamless navigation between search and booking
+### 1. Dynamic Form Generation
+The booking page automatically generates passenger forms based on the search criteria:
+- Adult forms include passport number (required)
+- Child forms have optional passport fields
+- Infant forms have minimal required fields
 
-### 📱 Responsive Design
-- Mobile-first approach
-- Optimized for all screen sizes
-- Touch-friendly interface
+### 2. State Management
+Redux Toolkit manages three main slices:
+- **Auth**: User authentication state
+- **Search**: Flight search results and parameters
+- **Booking**: Booking process and passenger data
 
-### 🎨 Modern UI/UX
-- Clean, professional design
-- Consistent color scheme and typography
-- Intuitive user flow
+### 3. Route Protection
+Middleware protects booking routes:
+- Redirects unauthenticated users to login
+- Preserves intended destination after login
+- Sets authentication cookies
 
-## Customization
+### 4. Ticket Download
+After successful booking:
+- Generates booking reference
+- Creates downloadable JSON ticket
+- Includes all booking details and passenger info
 
-### Styling
-- Modify `tailwind.config.ts` for theme customization
-- Update `app/globals.css` for global styles
-- Component-level styling with Tailwind classes
+## Assumptions & Limitations
 
-### API Integration
-- Replace mock data in `app/search/page.tsx`
-- Implement real Firebase authentication in `contexts/AuthContext.tsx`
-- Add error handling and loading states
+### Assumptions
+- Mock API responses for flight search
+- Simplified authentication with credentials
+- Basic form validation
 
-### Features Extension
-- Add hotel booking functionality
-- Implement payment processing
-- Add user profile management
-- Include booking history
 
-## Deployment
+### Limitations
+- No real payment processing
+- Basic error handling
+- No email notifications
+- No booking modification/cancellation
 
-### Vercel (Recommended)
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Deploy automatically
+## Future Enhancements
 
-### Other Platforms
-- Build: `npm run build`
-- Start: `npm start`
-- Ensure environment variables are configured
+1. **Real API Integration**
+   - Connect to actual flight booking APIs
+   - Implement real-time pricing
 
-## Environment Variables
+2. **Payment Processing**
+   - Add Stripe/PayPal integration
+   - Multiple payment methods
 
-Create a `.env.local` file:
-\`\`\`env
-NEXT_PUBLIC_API_URL=https://api.tbp.travel
-FIREBASE_API_KEY=your_firebase_key
-FIREBASE_AUTH_DOMAIN=your_domain
-# Add other Firebase config
-\`\`\`
+3. **Enhanced Features**
+   - Seat selection
+   - Meal preferences
+   - Travel insurance
+   - Multi-city trips
+
+4. **User Experience**
+   - Email confirmations
+   - Booking management dashboard
+   - Mobile app version
+
+## Technologies Used
+
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **State Management**: Redux Toolkit
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Authentication**: Mock Firebase (ready for real implementation)
+- **Routing**: Next.js App Router with middleware
+- **Form Handling**: React Hook Form ready integration
+- **Icons**: Lucide React
+- **Animation**: Framer Motion
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## Contact
 
-For questions or support, please contact the development team or create an issue in the repository.
+For any questions or support, please contact:
+- Email: support@khuyendu.com
+- GitHub: [Your GitHub Profile]
+
+---
+
+**Note**: This is a demo application built for the Travel Business Portal frontend developer position. All flight data and bookings are simulated for demonstration purposes.
