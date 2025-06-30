@@ -1,23 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface StepItem {
-  step: number;
-  label: string;
-}
+import { useBookingSteps } from "@/hooks/useBookingSteps";
 
 export function BookingSteps({ currentStep }: { currentStep: number }) {
-  const steps: StepItem[] = [
-    { step: 1, label: "Details" },
-    { step: 2, label: "Review" },
-    { step: 3, label: "Confirmation" },
-  ];
-
+  const stepsItem = useBookingSteps();
   return (
     <Card className="mb-6">
       <CardContent className="p-6 flex items-center space-x-4 overflow-x-auto">
-        {steps.map((item, index) => {
+        {stepsItem?.map((item, index) => {
           const isActive = currentStep === item.step;
           const isCompleted = currentStep > item.step;
 
@@ -47,7 +38,7 @@ export function BookingSteps({ currentStep }: { currentStep: number }) {
               >
                 {item.label}
               </span>
-              {index < steps.length - 1 && (
+              {index < stepsItem.length - 1 && (
                 <div className="w-8 h-1 bg-gray-300 mx-3">
                   <div
                     className={`h-1 ${

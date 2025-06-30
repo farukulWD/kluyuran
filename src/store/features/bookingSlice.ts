@@ -7,7 +7,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-interface PassengerInfo {
+export interface PassengerInfo {
   id: string;
   type: "adult" | "child" | "infant";
   title: string;
