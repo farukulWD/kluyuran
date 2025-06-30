@@ -58,7 +58,7 @@ export const AnimatedFlightCard = ({ flight, onBook }: FlightCardProps) => {
             </div>
           </div>
 
-          <div className="text-center mx-auto md:ml-auto  min-w-max">
+          <div className="text-center mx-auto md:m-0  min-w-max">
             <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
               Cheapest
             </span>

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import Cookies from "js-cookie";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -61,10 +62,11 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      document.cookie = "auth-token=authenticated; path=/";
+      Cookies.set("auth-token", "authenticated");
+      // document.cookie = "auth-token=authenticated; path=/";
       router.push(returnUrl);
     }
-  }, [isAuthenticated, router, returnUrl]);
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     dispatch(clearError());
@@ -73,10 +75,14 @@ export default function SignInPage() {
   const onSubmit = async (values: SignInFormValues) => {
     try {
       const user = await dispatch(signInUser(values)).unwrap();
-      document.cookie = "auth-token=authenticated; path=/";
+      Cookies.set("auth-token", "authenticated");
+      console.log(user);
+      // document.cookie = "auth-token=authenticated; path=/";
+
       toast.success("Signed in successfully", {
         description: `Welcome back, ${user.displayName || user.email}!`,
       });
+      router.push(returnUrl);
     } catch (err: any) {
       console.log(err);
       toast.error("Sign in failed", {

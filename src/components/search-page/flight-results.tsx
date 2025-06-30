@@ -24,7 +24,7 @@ export default function FlightResults({
   filters,
 }: FlightResultsProps) {
   const isMobile = useIsMobile();
-  console.log(isMobile);
+
   const filteredFlights = useMemo(() => {
     return flights.filter((flight) => {
       const matchesAirline =

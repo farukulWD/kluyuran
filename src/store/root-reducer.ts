@@ -1,9 +1,23 @@
 import { persistReducer } from "redux-persist";
 
-import storage from "redux-persist/lib/storage";
 import searchReducer from "@/store/features/searchSlice";
 import authReducer from "@/store/features/authSlice";
 import bookingReducer from "@/store/features/bookingSlice";
+
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+export const createNoopStorage = () => {
+  return {
+    getItem: () => Promise.resolve(null),
+    setItem: () => Promise.resolve(),
+    removeItem: () => Promise.resolve(),
+  };
+};
+
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 
 const authPersist = {
   key: "auth",

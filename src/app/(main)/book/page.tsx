@@ -25,12 +25,19 @@ import { PassengerForm } from "@/components/booking-page/passenger-form";
 export default function BookingPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAppSelector((s) => s.auth);
   const { selectedFlight, bookingDetails, isLoading } = useAppSelector(
     (state) => state.booking
   );
 
   const steps = useBookingSteps();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/");
+    }
+  });
 
   // Initialize formData & formErrors from passengers
   const [formData, setFormData] = useState(() => {
