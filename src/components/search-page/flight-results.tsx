@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { AnimatedFlightCard } from "@/components/animations/flight-card";
 import { Flight } from "@/lib/convertToIFlight";
 import { Button } from "../ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FlightResultsProps {
   flights: Flight[];
@@ -22,6 +23,8 @@ export default function FlightResults({
   onBook,
   filters,
 }: FlightResultsProps) {
+  const isMobile = useIsMobile();
+  console.log(isMobile);
   const filteredFlights = useMemo(() => {
     return flights.filter((flight) => {
       const matchesAirline =
@@ -70,7 +73,7 @@ export default function FlightResults({
           {filteredFlights.length} Result
           {filteredFlights.length !== 1 ? "s" : ""}
         </h2>
-        <div className="flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4">
           {[
             { label: "Recommended", active: true },
             { label: "Fastest", active: false },
@@ -106,7 +109,7 @@ export default function FlightResults({
             <List
               width={width}
               height={height}
-              rowHeight={180}
+              rowHeight={isMobile ? 350 : 180}
               rowCount={filteredFlights.length}
               rowRenderer={({ index, key, style }) => {
                 const flight = filteredFlights[index];
